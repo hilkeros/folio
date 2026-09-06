@@ -1,0 +1,38 @@
+# dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# build
+dist/
+
+# database
+*.db
+*.db-shm
+*.db-wal
+
+# environment
+.env
+.env.local
+.env.*.local
+
+# keys & secrets
+*.pem
+*.key
+
+# OS
+.DS_Store
+Thumbs.db
+
+# editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
