@@ -77,7 +77,7 @@ export function DigestSettings() {
         Email digest
       </h2>
       <p className="mb-4 text-xs text-zinc-600">
-        Receive your EPUB automatically by email. If you send it to your Send-to-PocketBook email address, it will be delivered to your e-reader automatically.
+        Receive your EPUB automatically by email. If you send it to your Send-to-PocketBook or Send-to-Kindle email address, it will be delivered to your e-reader automatically.
       </p>
        <p className="mb-4 text-xs text-zinc-600">
         The email address wil be saved in our database and used only for sending the digest. You can cancel the digest at any time. Your email address will not be shared with anyone else or be published as an atproto record.
