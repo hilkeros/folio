@@ -8,7 +8,8 @@
     "start": "pnpm migrate && next start",
     "lint": "eslint",
     "migrate": "tsx scripts/migrate.ts",
-    "gen-key": "tsx scripts/gen-key.ts"
+    "gen-key": "tsx scripts/gen-key.ts",
+    "reset-digests": "tsx scripts/reset-digests.ts"
   },
   "dependencies": {
     "@atproto/oauth-client-node": "^0.3.17",
@@ -17,10 +18,17 @@
     "kysely": "^0.28.11",
     "next": "16.1.6",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "resend": "^6.26.0",
+    "sharp": "^0.35.4"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["better-sqlite3", "esbuild", "sharp", "unrs-resolver"]
+    "onlyBuiltDependencies": [
+      "better-sqlite3",
+      "esbuild",
+      "sharp",
+      "unrs-resolver"
+    ]
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -28,6 +36,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/sharp": "^0.32.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",

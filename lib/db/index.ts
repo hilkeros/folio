@@ -19,6 +19,7 @@ export const getDb = (): Kysely<DatabaseSchema> => {
 export interface DatabaseSchema {
   auth_state: AuthStateTable;
   auth_session: AuthSessionTable;
+  digest_schedule: DigestScheduleTable;
 }
 
 interface AuthStateTable {
@@ -29,4 +30,12 @@ interface AuthStateTable {
 interface AuthSessionTable {
   key: string;
   value: string;
+}
+
+export interface DigestScheduleTable {
+  did: string;           // PK — one schedule per user
+  email: string;
+  frequency: string;     // "weekly" | "biweekly" | "monthly"
+  last_sent_at: number | null; // Unix ms, null = never sent
+  created_at: number;
 }

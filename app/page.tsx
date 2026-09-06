@@ -3,6 +3,7 @@ import { resolveDidToHandle } from "@/lib/atproto/publications";
 import { LoginForm } from "@/components/LoginForm";
 import { LogoutButton } from "@/components/LogoutButton";
 import { PublicationsView } from "@/components/PublicationsView";
+import { DigestSettings } from "@/components/DigestSettings";
 
 export default async function Home({
   searchParams,
@@ -33,7 +34,10 @@ export default async function Home({
         </header>
 
         {session ? (
-          <PublicationsView />
+          <div className="space-y-6">
+            <PublicationsView />
+            <DigestSettings />
+          </div>
         ) : (
           <div className="flex flex-1 items-center justify-center">
             <div className="w-full max-w-sm rounded-3xl border border-zinc-800 bg-zinc-900/50 p-8 backdrop-blur-sm">

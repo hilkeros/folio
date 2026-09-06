@@ -1,4 +1,5 @@
 import type { Publisher, StandardDocument } from "../atproto/publications";
+import { generateCoverFile } from "./cover";
 
 // --- Facet / rich-text helpers (mirrors indiemusich-blog's applyFacets) ---
 
@@ -235,13 +236,33 @@ export async function generateEpub(
   const toLabel = formatDate(to.toISOString());
   const title = `Folio: ${fromLabel} – ${toLabel}`;
 
-  const chapters = allDocs.map(documentToChapter);
+  const articleChapters = allDocs.map(documentToChapter);
+
+  // Title page shown before the TOC
+  const titlePage = {
+    title: "Cover",
+    content: `
+      <div class="title-page">
+        <p class="tp-label">standard.site digest</p>
+        <h1 class="tp-title">folio</h1>
+        <p class="tp-from">${escapeHtml(fromLabel)}</p>
+        <p class="tp-dash">&#x2014;</p>
+        <p class="tp-to">${escapeHtml(toLabel)}</p>
+        <p class="tp-stats">${allDocs.length} article${allDocs.length !== 1 ? "s" : ""} &middot; ${publishers.length} publication${publishers.length !== 1 ? "s" : ""}</p>
+      </div>
+    `,
+    beforeToc: true,
+    excludeFromToc: true,
+  };
+
+  const coverFile = await generateCoverFile(from, to);
 
   const { default: Epub } = await import("epub-gen-memory");
 
   const epubBuffer = await Epub(
     {
       title,
+      cover: coverFile,
       author: "folio",
       publisher: "folio / standard.site",
       description: `Collected articles from ${fromLabel} to ${toLabel}`,
@@ -257,10 +278,19 @@ export async function generateEpub(
         code { font-family: monospace; background: #f4f4f4; padding: 0 0.2em; }
         a { color: #1a5490; }
         .read-online { font-size: 0.9em; color: #555; word-break: break-all; }
+        /* Title page */
+        .title-page { text-align: center; padding: 4em 1em; page-break-after: always; }
+        .tp-label { font-size: 0.75em; letter-spacing: 0.2em; text-transform: uppercase; color: #999; margin-bottom: 2em; }
+        .tp-title { font-size: 3.5em; font-weight: bold; letter-spacing: -0.02em; margin: 0.1em 0 0.6em; }
+        .tp-from { font-size: 1em; color: #777; margin: 0; }
+        .tp-dash { font-size: 1.2em; color: #bbb; margin: 0.1em 0; }
+        .tp-to { font-size: 1.2em; font-weight: bold; margin: 0 0 1.5em; }
+        .tp-stats { font-size: 0.8em; color: #aaa; letter-spacing: 0.05em; }
       `,
     },
-    chapters,
+    [titlePage, ...articleChapters],
   );
+
 
   return Buffer.isBuffer(epubBuffer)
     ? epubBuffer

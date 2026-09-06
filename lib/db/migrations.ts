@@ -2,6 +2,21 @@ import { Kysely, Migration, Migrator } from "kysely";
 import { getDb } from ".";
 
 const migrations: Record<string, Migration> = {
+  "002": {
+    async up(db: Kysely<unknown>) {
+      await db.schema
+        .createTable("digest_schedule")
+        .addColumn("did", "text", (col) => col.primaryKey())
+        .addColumn("email", "text", (col) => col.notNull())
+        .addColumn("frequency", "text", (col) => col.notNull())
+        .addColumn("last_sent_at", "integer")
+        .addColumn("created_at", "integer", (col) => col.notNull())
+        .execute();
+    },
+    async down(db: Kysely<unknown>) {
+      await db.schema.dropTable("digest_schedule").execute();
+    },
+  },
   "001": {
     async up(db: Kysely<unknown>) {
       await db.schema
